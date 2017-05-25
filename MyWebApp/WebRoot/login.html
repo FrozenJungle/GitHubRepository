@@ -6,36 +6,24 @@
 </head>
 <body>
 	<h1>登录页</h1>
-	<form action="login_check.jsp" method="post" onsubmit="return checkUserName()">
+	<form action="UserLogin" method="post">
 		<table border="1">
 			<tr>
 				<td colspan="2">用户登录</td>
 			</tr>
 			<tr>
 				<td>用户名：</td>
-				<td><input type="text" id="username"></td>
+				<td><input type="text" name="username"></td>
 			</tr>
 			<tr>
 				<td>密码：</td>
-				<td><input type="password" id="password"></td>
+				<td><input type="password" name="password"></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input name="submit" type="submit" value="登录"> <input
-					type="reset" value="重置"></td>
+				<td colspan="2"><input name="submit" type="submit" value="登录">
+					<input type="reset" value="重置"></td>
 			</tr>
 		</table>
 	</form>
-
-	<script type="text/javascript">
-		function checkUserName() {
-			if (document.getElementById("username") == "") {
-				alert("请输入用户名");
-				return false;
-			}
-		}
-	</script>
-	<script type="text/javascript">
-		checkUserName();
-	</script>
 </body>
 </html>

@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>注册失败</h1>
-	<a href="signin.html">返回注册页</a>
-	<a href="login.html">返回登录页</a>
+	<h1>注册失败!</h1>
+	<a href="signin.html">注册</a>
+	<a href="login.html">登录</a>
 </body>
 </html>
