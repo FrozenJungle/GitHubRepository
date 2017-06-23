@@ -2,9 +2,11 @@ package com.zzh.views;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +31,7 @@ public class AltInfo extends JFrame {
 	 * Create the frame.
 	 */
 	public AltInfo(int stuId) {
+		super("修改个人信息");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 350);
 		contentPane = new JPanel();
@@ -116,5 +119,13 @@ public class AltInfo extends JFrame {
 		collegeText.setText(se.getStudent_college());
 		majorText.setText(se.getStudent_major());
 		emailText.setText(se.getStudent_email());
+		
+		JLabel picLabel = new JLabel();
+		String picURI = "/images/"+stuId+".png";
+		ImageIcon image = new ImageIcon(this.getClass().getResource(picURI));
+		image.setImage(image.getImage().getScaledInstance(117, 141, Image.SCALE_SMOOTH));
+		picLabel.setIcon(image);
+		picLabel.setBounds(227, 20, 117, 141);
+		contentPane.add(picLabel);
 	}
 }

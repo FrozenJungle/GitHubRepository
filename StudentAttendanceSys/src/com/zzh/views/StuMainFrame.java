@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.zzh.control.Operator;
+import com.zzh.bean.TeacherEntity;
+import com.zzh.dao.StudentEntityDAO;
+import com.zzh.dao.impl.StudentEntityDAOImpl;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -17,8 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 public class StuMainFrame extends JFrame {
 
@@ -30,6 +36,7 @@ public class StuMainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public StuMainFrame(int stuId) {
+		super("主界面");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 450);
 		contentPane = new JPanel();
@@ -38,23 +45,26 @@ public class StuMainFrame extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 150, 145);
+		panel.setBounds(0, 0, 150, 165);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel idLabel = new JLabel(String.valueOf(stuId));
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(0, 75, 150, 35);
+		idLabel.setBounds(0, 142, 150, 23);
 		panel.add(idLabel);
 
-		JLabel staLabel = new JLabel("欢迎你！");
-		staLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		staLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		staLabel.setBounds(0, 28, 150, 35);
-		panel.add(staLabel);
+		JLabel picLabel = new JLabel();
+		String picURI = "/images/"+stuId+".png";
+		ImageIcon image = new ImageIcon(this.getClass().getResource(picURI));
+		image.setImage(image.getImage().getScaledInstance(150, 142, Image.SCALE_SMOOTH));
+		picLabel.setIcon(image);
+		picLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		picLabel.setBounds(0, 0, 150, 142);
+		panel.add(picLabel);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 150, 150, 265);
+		panel_1.setBounds(0, 177, 150, 238);
 		contentPane.add(panel_1);
 
 		JButton btnNewButton = new JButton("查看个人信息");
@@ -91,7 +101,18 @@ public class StuMainFrame extends JFrame {
 		JButton btnNewButton_3 = new JButton("查看教师信息");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChkTeacherInfo chkTeacherInfo = new ChkTeacherInfo();
+				StudentEntityDAO stuEn = new StudentEntityDAOImpl();
+				ArrayList<TeacherEntity> teacher = stuEn.fndTeaByStuId(stuId);
+				int length = teacher.size();
+				String[][] teacherStr = new String[length][3];
+				int i = 0;
+				for (TeacherEntity teacherE : teacher) {
+					teacherStr[i][0] = teacherE.getTeacher_name();
+					teacherStr[i][1] = teacherE.getCollege_name();
+					teacherStr[i][2] = teacherE.getFaculty_name();
+					i++;
+				}
+				ChkTeacherInfo chkTeacherInfo = new ChkTeacherInfo(teacherStr, stuId);
 				chkTeacherInfo.setVisible(true);
 				StuMainFrame.this.dispose();
 			}
@@ -101,8 +122,14 @@ public class StuMainFrame extends JFrame {
 		JButton btnNewButton_4 = new JButton("查看课程信息");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChkCourseInfo chkCourseInfo = new ChkCourseInfo();
-				chkCourseInfo.setVisible(true);
+				StudentEntityDAO stuEn = new StudentEntityDAOImpl();
+				ArrayList<String[]> class_ = stuEn.fndClsByStuId(stuId);
+				String[][] classList = new String[class_.size()][3];
+				for (int i = 0; i < class_.size(); i++) {
+					classList[i] = class_.get(i);
+				}
+				ChkCourseInfo cci = new ChkCourseInfo(classList, stuId);
+				cci.setVisible(true);
 				StuMainFrame.this.dispose();
 			}
 		});
@@ -124,22 +151,29 @@ public class StuMainFrame extends JFrame {
 		panel_2.add(textField);
 		textField.setColumns(20);
 
-		JButton button = new JButton("确定");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Operator operator = new Operator();
-
-			}
-		});
-		button.setBounds(219, 26, 75, 29);
-		panel_2.add(button);
-
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(160, 75, 330, 345);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		JButton button = new JButton("确定");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				StudentEntityDAO stuEn = new StudentEntityDAOImpl();
+				ArrayList<String[]> a = stuEn.fndAttByStuId(stuId, Integer.parseInt(textField.getText()));
+				String[][] b = new String[a.size()][3];
+				for (int i = 0; i < a.size(); i++) {
+					b[i] = a.get(i);
+				}
+				String[] cn = { "考勤时间", "课程名称", "考勤状态" };
+
+				table = new JTable(b, cn);
+				table.setEnabled(false);
+				scrollPane.setViewportView(table);
+			}
+		});
+		button.setBounds(219, 26, 75, 29);
+		panel_2.add(button);
 
 	}
 }

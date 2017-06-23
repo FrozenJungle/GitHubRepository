@@ -29,6 +29,7 @@ public class AltPwd extends JFrame {
 	 * Create the frame.
 	 */
 	public AltPwd(int id) {
+		super("修改密码");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 350);
 		contentPane = new JPanel();

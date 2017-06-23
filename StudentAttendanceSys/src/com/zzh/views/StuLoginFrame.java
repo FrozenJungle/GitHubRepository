@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-import com.zzh.control.Operator;
 import com.zzh.dao.StudentEntityDAO;
 import com.zzh.dao.impl.StudentEntityDAOImpl;
 
@@ -26,28 +25,9 @@ import javax.swing.JTextField;
 
 public class StuLoginFrame extends JFrame {
 
-	/**
-	 * Launch the application.
-	 */
 	static final int DEFAULT_WIDTH = 300;
 	static final int DEFAULT_HEIGHT = 300;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StuLoginFrame frame = new StuLoginFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public StuLoginFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -87,7 +67,8 @@ public class StuLoginFrame extends JFrame {
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					StudentEntityDAO stuEn = new StudentEntityDAOImpl();
-					if((stuEn.login(Integer.parseInt(idTextField.getText()), new String(pwdTextField.getPassword())))!=null){
+					if ((stuEn.login(Integer.parseInt(idTextField.getText()),
+							new String(pwdTextField.getPassword()))) != null) {
 						JOptionPane.showMessageDialog(null, "登录成功！");
 						StuLoginFrame.this.dispose();
 						StuMainFrame smf = new StuMainFrame(Integer.parseInt(idTextField.getText()));
@@ -95,10 +76,10 @@ public class StuLoginFrame extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "登录失败！");
 					}
-					
+
 				}
 			});
-			
+
 			clearButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					idTextField.setText("");

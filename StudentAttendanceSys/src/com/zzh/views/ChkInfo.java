@@ -2,6 +2,7 @@ package com.zzh.views;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import com.zzh.dao.impl.StudentEntityDAOImpl;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,6 +29,7 @@ public class ChkInfo extends JFrame {
 	private JTextField emailText;
 
 	public ChkInfo(int stuId) {
+		super("查看个人信息");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 350);
 		contentPane = new JPanel();
@@ -107,5 +110,13 @@ public class ChkInfo extends JFrame {
 		collegeText.setText(se.getStudent_college());
 		majorText.setText(se.getStudent_major());
 		emailText.setText(se.getStudent_email());
+		
+		JLabel picLabel = new JLabel();
+		String picURI = "/images/"+stuId+".png";
+		ImageIcon image = new ImageIcon(this.getClass().getResource(picURI));
+		image.setImage(image.getImage().getScaledInstance(117, 141, Image.SCALE_SMOOTH));
+		picLabel.setIcon(image);
+		picLabel.setBounds(227, 20, 117, 141);
+		contentPane.add(picLabel);
 	}
 }
