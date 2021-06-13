@@ -1,3 +1,3 @@
 # GitHubRepository
 
-This is a private Java study Repository. Enjoy it! :)
+This is a private Java study Repository.
